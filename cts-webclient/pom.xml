@@ -8,11 +8,11 @@
 		<version>3.4.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>org.jmr</groupId>
-	<artifactId>cts</artifactId>
+	<groupId>com.jmr</groupId>
+	<artifactId>cts-webclient</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Common Transactive Services</name>
-	<description>Spring Boot Project for a custom CTS implementation</description>
+	<name>cts-webclient</name>
+	<description>Web Client representing an example client in the CTS system</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -20,6 +20,12 @@
 	<developers>
 		<developer/>
 	</developers>
+	<scm>
+		<connection/>
+		<developerConnection/>
+		<tag/>
+		<url/>
+	</scm>
 	<properties>
 		<java.version>21</java.version>
 	</properties>
@@ -31,41 +37,31 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>io.micrometer</groupId>
-			<artifactId>micrometer-tracing-bridge-brave</artifactId>
+			<groupId>io.github.wimdeblauwe</groupId>
+			<artifactId>htmx-spring-boot</artifactId>
+			<version>4.0.1</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>junit</groupId>
-					<artifactId>junit</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
-		<!-- <dependency>
+		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
-			<scope>test</scope> 
-		</dependency> -->
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
-		<finalName>JMR-Common-Transactive-Services</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
