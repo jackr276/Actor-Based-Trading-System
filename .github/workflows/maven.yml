@@ -28,6 +28,6 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build CTS
-      run: mvn package -f ./cts/pom.xml
+      run: mvn package -f ./market/pom.xml
     - name: Build Webclient
-      run: mvn package -f ./cts-webclient/pom.xml
+      run: mvn package -f ./actor_webclient/pom.xml
