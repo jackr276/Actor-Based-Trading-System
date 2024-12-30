@@ -1,0 +1,6 @@
+Author: Jack Robbins
+
+Setting up to run the JMR-Common-Transactive-Services
+
+Step 1: Create a database named "CTS"
+mysql > CREATE DATABASE CTS
