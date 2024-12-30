@@ -5,13 +5,13 @@ read -p "Do you want to test build[b] or build and run[br]?: " BUILD_ONLY
 
 #Wipe the whole thing
 echo "Wiping the CTS binary & recompiling"
-cd ./cts
+cd ./market
 mvn clean
 mvn package
 cd ..
 
 echo "Wiping the webclient binary & recompiling"
-cd ./cts-webclient
+cd ./actor_webclient
 mvn clean
 mvn package
 cd ..
@@ -19,6 +19,6 @@ cd ..
 
 
 if [[ $BUILD_ONLY = "br" ]]; then
-	gnome-terminal -- java -jar ./cts/target/JMR-Common-Transactive-Services.jar
-	gnome-terminal -- java -jar ./cts-webclient/target/cts-webclient-0.0.1-SNAPSHOT.jar
+	gnome-terminal -- java -jar ./market/target/JMR-Common-Transactive-Services.jar
+	gnome-terminal -- java -jar ./actor_webclient/target/actor-webclient-0.0.1-SNAPSHOT.jar
 fi
