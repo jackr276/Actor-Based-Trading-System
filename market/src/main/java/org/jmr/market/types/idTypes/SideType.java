@@ -1,4 +1,4 @@
-package org.jmr.market.types;
+package org.jmr.market.types.idTypes;
 
 /**
  * A side type is used to distinguish between BUY and SELL sides.

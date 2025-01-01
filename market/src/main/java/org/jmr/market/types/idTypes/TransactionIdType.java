@@ -1,4 +1,4 @@
-package org.jmr.market.types;
+package org.jmr.market.types.idTypes;
 
 /**
  * This type is used to identify transactions(trades) that occur in the market.

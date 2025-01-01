@@ -1,4 +1,4 @@
-package org.jmr.market.types;
+package org.jmr.market.types.idTypes;
 
 
 public class QuoteIdType extends UIDType{
