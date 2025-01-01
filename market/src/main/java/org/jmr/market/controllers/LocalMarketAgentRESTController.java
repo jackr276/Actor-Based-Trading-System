@@ -4,8 +4,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/lma")
-public class LmaRESTController {
+@RequestMapping("/local_market_agent")
+public class LocalMarketAgentRESTController {
 
 
 }
