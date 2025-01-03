@@ -3,10 +3,11 @@ package org.jmr.market.instrument;
 
 /**
  * Define an instrument type. Users can register their own instruments 
- * in this scheme
+ * in this scheme. This will be stored in a mysql database
  */
 public class InstrumentType{
 	private InstrumentIdType instrumentId;
+
 	private String instrumentName;
 	/* May add more */
 
