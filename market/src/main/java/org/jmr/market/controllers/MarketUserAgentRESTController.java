@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/marketUserAgent")
 public class MarketUserAgentRESTController {
 
+	/**
+	 * TODO this would probably make more sense to have in the LMA
+	 */
 	@PostMapping("{muaID}/registerInstrument")
 	public ActorRegisterInstrumentResponse actorRegisterInstrument(
 		@PathVariable String muaID,
