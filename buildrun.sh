@@ -19,6 +19,6 @@ cd ..
 
 
 if [[ $BUILD_ONLY = "br" ]]; then
-	gnome-terminal -- java -jar ./market/target/JMR-Common-Transactive-Services.jar
+	gnome-terminal -- java -jar ./market/target/market.jar
 	gnome-terminal -- java -jar ./actor_webclient/target/actor-webclient-0.0.1-SNAPSHOT.jar
 fi

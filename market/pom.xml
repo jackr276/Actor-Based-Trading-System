@@ -65,7 +65,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>JMR-Common-Transactive-Services</finalName>
+		<finalName>market</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

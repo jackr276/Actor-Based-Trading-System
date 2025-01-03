@@ -1,6 +1,8 @@
 package org.jmr.market.controllers;
 
 import org.jmr.market.payloads.ActorRegisterInstrumentResponse;
+import org.jmr.market.payloads.ActorCreateQuoteRequest;
+import org.jmr.market.payloads.ActorCreateQuoteResponse;
 import org.jmr.market.payloads.ActorRegisterInstrumentRequest;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +22,15 @@ public class MarketUserAgentRESTController {
 		
 
 
+		return null;
+	}
+
+
+	@PostMapping("{muaID}/createQuote")
+	public ActorCreateQuoteResponse actorCreateQuote(
+		@PathVariable String muaID,
+		@RequestBody ActorCreateQuoteRequest actorCreateQuoteRequest
+	){
 		return null;
 	}
 
