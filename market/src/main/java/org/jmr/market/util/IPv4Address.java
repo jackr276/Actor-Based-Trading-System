@@ -27,6 +27,9 @@ public class IPv4Address{
 		return this.address;
 	}
 
+	public boolean isValid(){
+		return this.isValid();
+	}
 
 	/**
 	 * Is the address a valid IPv4 address?
@@ -44,5 +47,9 @@ public class IPv4Address{
 		return m.find();
 	}
 
+	@Override
+	public String toString(){
+		return "IPv4 Address: " + this.address.toString();
+	}
 
 }
