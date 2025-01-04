@@ -6,6 +6,7 @@ import org.jmr.market.util.IPv4Address;
  * We need to be able to register an actor within the system
  */
 public class RegisterActorRequest{
+	private String info = "RegisterActorRequest";
 	//The address of the actor
 	private IPv4Address ipv4Address;
 
@@ -18,6 +19,14 @@ public class RegisterActorRequest{
 
 	public IPv4Address getIpv4Address(){
 		return this.ipv4Address;
+	}
+
+	public void setInfo(String info){
+		this.info = info;
+	}
+
+	public String getInfo(){
+		return this.info;
 	}
 
 	@Override

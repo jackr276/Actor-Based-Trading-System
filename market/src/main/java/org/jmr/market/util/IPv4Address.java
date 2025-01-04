@@ -28,7 +28,7 @@ public class IPv4Address{
 	}
 
 	public boolean isValid(){
-		return this.isValid();
+		return this.isValid;
 	}
 
 	/**

@@ -4,6 +4,7 @@ import org.jmr.market.util.ActorType;
 import org.jmr.market.util.ResponseType;
 
 public class RegisterActorResponse{
+	private String info = "RegisterActorResponse";
 	//This is the actor ID that newly registered individuals are given
 	private ActorType actor;
 	//The response that we get
@@ -29,6 +30,13 @@ public class RegisterActorResponse{
 		return this.response;
 	}
 
+	public void setInfo(String info){
+		this.info = info;
+	}
+
+	public String getInfo(){
+		return this.info;
+	}
 	@Override
 	public String toString(){
 		return "RegisterActorResponse {\n" + actor.toString() + "}";

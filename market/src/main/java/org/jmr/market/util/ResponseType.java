@@ -12,7 +12,7 @@ public class ResponseType{
 	//The description of it
 	private String responseDescription;
 	//Atomically created ID
-	private ReferenceIdType referenceId = new ReferenceIdType();
+	private SystemTransactionId transactionId;
 	//When was this response created
 	private Instant responseTime = Instant.now();
 
@@ -41,12 +41,12 @@ public class ResponseType{
 		this.responseDescription = responseDescription;
 	}
 
-	public ReferenceIdType getReferenceId(){
-		return this.referenceId;
+	public SystemTransactionId getTransactionId(){
+		return this.transactionId;
 	}
 
-	public void setReferenceId(ReferenceIdType referenceId){
-		this.referenceId = referenceId;
+	public void setTransactionId(SystemTransactionId transactionId){
+		this.transactionId = transactionId;
 	}
 
 	public Instant getResponseTime(){
@@ -62,7 +62,7 @@ public class ResponseType{
 		return "Response: {" + 
 				"\nResponse code: " + this.responseCode.toString() + 
 				"\nResponse description: " + this.responseDescription.toString() + 
-				"\nReference ID: " + this.referenceId.toString() +
+				"\nTransaction ID: " + this.transactionId.toString() +
 				"\nResponse date: " + this.responseTime.toString();
 	}
 }

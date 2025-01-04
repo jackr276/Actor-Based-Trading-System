@@ -7,6 +7,7 @@ import org.jmr.market.util.ActorType;
 import org.jmr.market.util.IPv4Address;
 import org.jmr.market.util.ResponseCode;
 import org.jmr.market.util.ResponseType;
+import org.jmr.market.util.SystemTransactionId;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -75,6 +76,11 @@ public class LocalMarketAgentRESTController {
 		RegisterActorResponse registerResponse = new RegisterActorResponse();
 		ResponseType response = new ResponseType();
 
+		//Overall system transaction ID for logging
+		SystemTransactionId systemTransactionId = new SystemTransactionId();
+		response.setTransactionId(systemTransactionId);
+		response.setResponseTime(Instant.now());
+
 
 		//Create a new actor
 		ActorType actor = new ActorType();
@@ -85,22 +91,25 @@ public class LocalMarketAgentRESTController {
 		if(request.getIpv4Address().isValid() == false){
 			logger.error("Invalid IP address of " + request.getIpv4Address().getAddress() 
 				+ " provided. Actor will not be registered");	
-			response.setResponseTime(Instant.now());
-			response.setResponseCode(ResponseCode.GENERIC_ERROR);
-			//response.setReferenceId(ne);
+			response.setResponseCode(ResponseCode.ACTOR_CREATION_FAILURE);
+			response.setResponseDescription("Invalid IP address given for actor");
+		} else {
+			//Set the address if it's valid
+			actor.setActorAddress(request.getIpv4Address());
+		
+			//We now have a valid actor, so we're good to insert
+			currentActors.put(actor.getActorId(), actor);
+			response.setResponseCode(ResponseCode.RESPONSE_CODE_OK);
+			response.setResponseDescription("Actor has been created and registered");
 		}
 
-		//Set the address if it's valid
-		actor.setActorAddress(request.getIpv4Address());
-		
-		//We now have a valid actor, so we're good to insert
-		currentActors.put(actor.getActorId(), actor);
+		registerResponse.setResponse(response);
+		registerResponse.setActor(actor);
 
+		//Success message
+		logger.trace("MUA successfully created actor: " + actor.toString());
 
-
-		
-
-		return null;
+		return registerResponse;
 	}
 
 

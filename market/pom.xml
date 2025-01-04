@@ -11,8 +11,8 @@
 	<groupId>org.jmr</groupId>
 	<artifactId>market</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Common Transactice Services Market</name>
-	<description>Spring Boot Project for a custom CTS implementation</description>
+	<name>Market Agent</name>
+	<description>Spring Boot Project for a CTS-inspired market implementation</description>
 	<url/>
 	<licenses>
 		<license/>

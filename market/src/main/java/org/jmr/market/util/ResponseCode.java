@@ -7,7 +7,8 @@ package org.jmr.market.util;
  */
 public enum ResponseCode{
 	RESPONSE_CODE_OK(200),
-	GENERIC_ERROR(500);
+	GENERIC_ERROR(500),
+	ACTOR_CREATION_FAILURE(501);
 
 
 	private int value;
