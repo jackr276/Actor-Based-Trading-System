@@ -1,9 +1,11 @@
 package org.jmr.market.controllers;
 
+import org.jmr.market.payloads.RegisterActorRequest;
 import org.jmr.market.payloads.RegisterActorResponse;
 import org.jmr.market.util.ActorIdType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,7 +29,7 @@ public class LocalMarketAgentRESTController {
 	 * key in this hashmap, and it's value is the URI that we would post to in the event
 	 * that we want to
 	 */
-	ConcurrentHashMap<ActorIdType, String> MuaURIs = new ConcurrentHashMap(); 
+	ConcurrentHashMap<ActorIdType, String> MuaURIs = new ConcurrentHashMap<ActorIdType, String>(); 
 
 
 	/**
@@ -55,8 +57,15 @@ public class LocalMarketAgentRESTController {
 	}
 
 
+	/**
+	 * A request given to register an actor in the system. Before registration, actors 
+	 * are unknown and the system will not recognize them
+	 */
 	@PostMapping("/registerActor")
-	public RegisterActorResponse registerActor(){
+	public RegisterActorResponse registerActor(
+		@RequestBody RegisterActorRequest registerActorRequest
+	){
+
 		return null;
 	}
 
