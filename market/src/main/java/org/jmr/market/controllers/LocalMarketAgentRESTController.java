@@ -2,6 +2,8 @@ package org.jmr.market.controllers;
 
 import org.jmr.market.payloads.RegisterActorRequest;
 import org.jmr.market.payloads.RegisterActorResponse;
+import org.jmr.market.payloads.RetrieveActorRequest;
+import org.jmr.market.payloads.RetrieveActorResponse;
 import org.jmr.market.util.ActorIdType;
 import org.jmr.market.util.ActorType;
 import org.jmr.market.util.IPv4Address;
@@ -57,6 +59,7 @@ public class LocalMarketAgentRESTController {
 	}
 
 
+	//========================================= Actor Management System ======================================
 	/**
 	 * A request given to register an actor in the system. Before registration, actors 
 	 * are unknown and the system will not recognize them
@@ -64,12 +67,6 @@ public class LocalMarketAgentRESTController {
 	@PostMapping("/registerActor")
 	public RegisterActorResponse registerActor(
 		@RequestBody RegisterActorRequest registerActorRequest){
-
-		//TODO rename refID to systemTransactionID
-		
-		//Build the REST template
-		final RestTemplateBuilder builder = new RestTemplateBuilder();
-		RestTemplate restTemplate = builder.build();
 
 		//Temporary variables
 		RegisterActorRequest request = registerActorRequest;
@@ -96,6 +93,7 @@ public class LocalMarketAgentRESTController {
 		} else {
 			//Set the address if it's valid
 			actor.setActorAddress(request.getIpv4Address());
+			actor.setPort(request.getPort());
 		
 			//We now have a valid actor, so we're good to insert
 			currentActors.put(actor.getActorId(), actor);
@@ -107,14 +105,50 @@ public class LocalMarketAgentRESTController {
 		registerResponse.setActor(actor);
 
 		//Success message
-		logger.trace("MUA successfully created actor: " + actor.toString());
+		logger.info("MUA successfully created actor: " + actor.toString());
 
 		return registerResponse;
 	}
 
+	/**
+	 * Retrieve an actor with the corresponding ID from the current actor system
+	 */
+	@PostMapping("/retrieveActor")
+	public RetrieveActorResponse retrieveActor(
+		@RequestBody RetrieveActorRequest retrieveActorRequest){
 
+		//Overall transaction ID
+		SystemTransactionId systemTransactionId = new SystemTransactionId();
+		//Temp variable to hold the request
+		RetrieveActorRequest request = retrieveActorRequest;
+		RetrieveActorResponse retrieveResponse = new RetrieveActorResponse();
+		//Response type for holding info
+		ResponseType response = new ResponseType();
+		response.setTransactionId(systemTransactionId);
+		response.setResponseTime(Instant.now());
 
+		//Invoke this for searching
+		ActorIdType actorId = new ActorIdType(request.getActorId());
 
+		ActorType found = null;
+		//Let's see if we can grab it
+		found = currentActors.get(actorId);
+		
+		//Set the actor here
+		retrieveResponse.setActor(found);
+		
+		if(found == null){
+			response.setResponseCode(ResponseCode.ACTOR_NOT_FOUND);
+			response.setResponseDescription("Actor with ID " + actorId.toString() + " does not exist");
+		} else {
+			response.setResponseCode(ResponseCode.RESPONSE_CODE_OK);
+			response.setResponseDescription("Actor with ID " + actorId.toString() + " was found");
+		}
+		
+		//Set and get out
+		retrieveResponse.setResponse(response);
+		return retrieveResponse;
+	}
 
-
+	//========================================= Actor Management System ======================================
 }

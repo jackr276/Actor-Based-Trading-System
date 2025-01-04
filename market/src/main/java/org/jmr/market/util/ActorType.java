@@ -10,6 +10,8 @@ public class ActorType{
 	private ActorIdType actorId;
 	//The Actors IP address
 	private IPv4Address actorAddress; 
+	//The actor port
+	private long port;
 	//TODO other attributes may come here, this will do for now
 
 	//JSON
@@ -32,6 +34,13 @@ public class ActorType{
 		return this.actorAddress;
 	}
 
+	public void setPort(long port){
+		this.port = port;
+	}
+
+	public long getPort(){
+		return this.port;
+	}
 
 	@Override
 	public String toString(){

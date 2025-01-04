@@ -9,6 +9,8 @@ public class RegisterActorRequest{
 	private String info = "RegisterActorRequest";
 	//The address of the actor
 	private IPv4Address ipv4Address;
+	//The port of the actor
+	private long port;
 
 	//JSON
 	public RegisterActorRequest(){}
@@ -29,8 +31,16 @@ public class RegisterActorRequest{
 		return this.info;
 	}
 
+	public void setPort(long port){
+		this.port = port;
+	}
+
+	public long getPort(){
+		return this.port;
+	}
+
 	@Override
 	public String toString(){
-		return "RegisterActorRequest: " + ipv4Address.toString();
+		return "RegisterActorRequest: " + ipv4Address.toString() + ", port: " + port;
 	}
 }

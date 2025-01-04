@@ -27,7 +27,5 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
         cache: maven
-    - name: Build CTS
+    - name: Build Market
       run: mvn package -f ./market/pom.xml
-    - name: Build Webclient
-      run: mvn package -f ./actor_webclient/pom.xml

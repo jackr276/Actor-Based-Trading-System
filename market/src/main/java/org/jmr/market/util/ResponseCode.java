@@ -6,21 +6,11 @@ package org.jmr.market.util;
  * as we go
  */
 public enum ResponseCode{
-	RESPONSE_CODE_OK(200),
-	GENERIC_ERROR(500),
-	ACTOR_CREATION_FAILURE(501);
+	RESPONSE_CODE_OK,
+	GENERIC_ERROR,
+	ACTOR_CREATION_FAILURE,
+	ACTOR_NOT_FOUND;
 
 
-	private int value;
-
-	//Construct it
-	private ResponseCode(int value){
-		this.value = value;
-	}
-
-	//Get the value
-	public int getValue(){
-		return this.value;
-	}
-
+	private ResponseCode(){}
 }

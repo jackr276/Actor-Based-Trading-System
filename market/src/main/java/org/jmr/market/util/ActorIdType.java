@@ -4,6 +4,9 @@ public class ActorIdType extends UIDType{
 	//For JSON only
 	public ActorIdType(){}
 
+	public ActorIdType(long id){
+		super.setId(id);
+	}
 
 	@Override
 	public int hashCode(){
@@ -20,7 +23,7 @@ public class ActorIdType extends UIDType{
 			return false;
 		}
 
-		return ((ActorIdType)other).getId() != this.getId();
+		return ((ActorIdType)other).getId() == this.getId();
 	}
 
 	@Override
