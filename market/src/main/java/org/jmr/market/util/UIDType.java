@@ -48,10 +48,21 @@ public class UIDType{
 		this.id = id;
 	}
 
-	 
+
+	/**
+	 * The hash code in our case simply is the ID, it
+	 * is guaranteed to be unique
+	 */
+	@Override
+	public int hashCode(){
+		return (int)this.id;
+	}
+
+
 	/**
 	 * String representation
 	 */
+	@Override
 	public String toString(){
 		return "Universal ID: " + String.valueOf(this.id);
 	}
