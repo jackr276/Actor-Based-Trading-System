@@ -4,21 +4,21 @@ import org.jmr.market.payloads.RegisterActorRequest;
 import org.jmr.market.payloads.RegisterActorResponse;
 import org.jmr.market.payloads.RetrieveActorRequest;
 import org.jmr.market.payloads.RetrieveActorResponse;
+import org.jmr.market.payloads.RetrieveAllActorsRequest;
+import org.jmr.market.payloads.RetrieveAllActorsResponse;
 import org.jmr.market.util.ActorIdType;
 import org.jmr.market.util.ActorType;
-import org.jmr.market.util.IPv4Address;
 import org.jmr.market.util.ResponseCode;
 import org.jmr.market.util.ResponseType;
 import org.jmr.market.util.SystemTransactionId;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.logging.log4j.LogManager;
@@ -105,7 +105,7 @@ public class LocalMarketAgentRESTController {
 		registerResponse.setActor(actor);
 
 		//Success message
-		logger.info("MUA successfully created actor: " + actor.toString());
+		logger.info("Local Market Agent successfully created actor: " + actor.toString());
 
 		return registerResponse;
 	}
@@ -140,15 +140,51 @@ public class LocalMarketAgentRESTController {
 		if(found == null){
 			response.setResponseCode(ResponseCode.ACTOR_NOT_FOUND);
 			response.setResponseDescription("Actor with ID " + actorId.toString() + " does not exist");
+			logger.info("Actor with ID " + actorId.toString() + " does not exist");
 		} else {
 			response.setResponseCode(ResponseCode.RESPONSE_CODE_OK);
 			response.setResponseDescription("Actor with ID " + actorId.toString() + " was found");
+			logger.info("Actor with ID " + actorId.toString() + " was found");
 		}
-		
+
 		//Set and get out
 		retrieveResponse.setResponse(response);
 		return retrieveResponse;
 	}
+
+
+	/**
+	 * Retrieve an actor with the corresponding ID from the current actor system
+	 */
+	@PostMapping("/retrieveAllActors")
+	public RetrieveAllActorsResponse retrieveAllActors(
+		@RequestBody RetrieveAllActorsRequest retrieveAllActorsRequest){
+		//Overall transaction ID
+		SystemTransactionId systemTransactionId = new SystemTransactionId();
+		//Temp variable to hold the request
+		RetrieveAllActorsResponse retrieveResponse = new RetrieveAllActorsResponse();
+		//To hold all of our actors
+		ArrayList<ActorType> actors = new ArrayList<>();
+
+		//Response type for holding info
+		ResponseType response = new ResponseType();
+		response.setTransactionId(systemTransactionId);
+		response.setResponseTime(Instant.now());
+		response.setResponseCode(ResponseCode.RESPONSE_CODE_OK);
+
+		//Build the array list up for us to respond
+		for(ActorIdType id : this.currentActors.keySet()){
+			actors.add(this.currentActors.get(id));
+		}
+
+		//Add it in to the response
+		retrieveResponse.setActors(actors);
+		retrieveResponse.setResponse(response);
+		
+		//We should now be all set to return
+		return retrieveResponse;
+	}
+
 
 	//========================================= Actor Management System ======================================
 }
