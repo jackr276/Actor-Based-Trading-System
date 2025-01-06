@@ -1,7 +1,11 @@
 package org.jmr.market.controllers;
 
+import org.jmr.market.instrument.InstrumentIdType;
+import org.jmr.market.instrument.InstrumentType;
 import org.jmr.market.payloads.RegisterActorRequest;
 import org.jmr.market.payloads.RegisterActorResponse;
+import org.jmr.market.payloads.RegisterInstrumentRequest;
+import org.jmr.market.payloads.RegisterInstrumentResponse;
 import org.jmr.market.payloads.RetrieveActorRequest;
 import org.jmr.market.payloads.RetrieveActorResponse;
 import org.jmr.market.payloads.RetrieveAllActorsRequest;
@@ -39,7 +43,14 @@ public class LocalMarketAgentRESTController {
 	 * key in this hashmap, and it's value is the URI that we would post to in the event
 	 * that we want to
 	 */
-	ConcurrentHashMap<ActorIdType, ActorType> currentActors = new ConcurrentHashMap<ActorIdType, ActorType>(); 
+	ConcurrentHashMap<ActorIdType, ActorType> currentActors = new ConcurrentHashMap<>(); 
+	/**
+	 * Here we will manage all active instruments in the system. The instrumentID is used as a 
+	 * key in this hashmap
+	 * TODO will eventually go in database
+	 */
+	ConcurrentHashMap<InstrumentIdType, InstrumentType> currentInstruments = new ConcurrentHashMap<>(); 
+
 
 
 	/**
@@ -187,4 +198,14 @@ public class LocalMarketAgentRESTController {
 
 
 	//========================================= Actor Management System ======================================
+	//==================================== Instrument Management System ======================================
+	@PostMapping("/registerInstrument")
+	public RegisterInstrumentResponse registerInstrument(
+		@RequestBody RegisterInstrumentRequest registerInstrumentRequest){
+
+
+	}
+	
+	
+	//==================================== Instrument Management System ======================================
 }

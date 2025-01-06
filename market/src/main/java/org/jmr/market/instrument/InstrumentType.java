@@ -9,11 +9,29 @@ public class InstrumentType{
 	private InstrumentIdType instrumentId;
 
 	private String instrumentName;
+	private InstrumentAssetClass instrumentAssetClass;
+	private InstrumentClass instrumentClass;
 	/* May add more */
 
 	//For JSON
 	public InstrumentType(){}
 	
+	public InstrumentAssetClass getInstrumentAssetClass(){
+		return this.instrumentAssetClass;
+	}
+
+	public void setInstrumentAssetClass(InstrumentAssetClass instrumentAssetClass){
+		this.instrumentAssetClass = instrumentAssetClass;
+	}
+
+	public InstrumentClass getInstrumentClass(){
+		return this.instrumentClass;
+	}
+
+	public void setInstrumentClass(InstrumentClass instrumentClass){
+		this.instrumentClass = instrumentClass;
+	}
+
 	public InstrumentIdType getInstrumentId(){
 		return this.instrumentId;
 	}
@@ -34,10 +52,9 @@ public class InstrumentType{
 	public String toString(){
 		return "Instrument: {\n" + 
 				this.instrumentId.toString() + 
-				",\n" + this.instrumentName + 
-				"\n}";
+				", " + this.instrumentName + 
+				", " + this.instrumentClass +
+				", " + this.instrumentAssetClass +
+				" }";
 	}
-	
-
-
 }

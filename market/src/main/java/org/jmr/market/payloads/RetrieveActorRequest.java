@@ -1,7 +1,5 @@
 package org.jmr.market.payloads;
 
-import org.jmr.market.util.ActorIdType;
-
 public class RetrieveActorRequest{
 	private String info =  "RetrieveActorRequest";
 	//The actor ID that we want
