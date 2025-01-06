@@ -199,11 +199,39 @@ public class LocalMarketAgentRESTController {
 
 	//========================================= Actor Management System ======================================
 	//==================================== Instrument Management System ======================================
+	/**
+	 * Register a new instrument
+	 */
 	@PostMapping("/registerInstrument")
 	public RegisterInstrumentResponse registerInstrument(
 		@RequestBody RegisterInstrumentRequest registerInstrumentRequest){
+		RegisterInstrumentRequest request = registerInstrumentRequest;
+		RegisterInstrumentResponse registerResponse = new RegisterInstrumentResponse();
 
+		//Transaction ID
+		SystemTransactionId systemTransactionId = new SystemTransactionId();
 
+		//Populate response
+		ResponseType response = new ResponseType();
+		response.setTransactionId(systemTransactionId);
+		response.setResponseTime(Instant.now());
+		
+		//Populate the instrument
+		InstrumentType instrument = new InstrumentType();
+		instrument.setInstrumentId(new InstrumentIdType());
+		instrument.setInstrumentName(request.getInstrumentName());
+		instrument.setInstrumentClass(request.getInstrumentClass());
+		instrument.setInstrumentAssetClass(request.getInstrumentAssetClass());
+		
+		//Insert into the map
+		currentInstruments.put(instrument.getInstrumentId(), instrument);
+		
+		//Populate response and return
+		registerResponse.setInstrument(instrument);
+		response.setResponseCode(ResponseCode.RESPONSE_CODE_OK);
+		registerResponse.setResponse(response);
+
+		return registerResponse;
 	}
 	
 	
