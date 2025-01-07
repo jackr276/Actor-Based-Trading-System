@@ -2,6 +2,8 @@ package org.jmr.market.controllers;
 
 import org.jmr.market.instrument.InstrumentIdType;
 import org.jmr.market.instrument.InstrumentType;
+import org.jmr.market.payloads.ActorDoesNotExistResponse;
+import org.jmr.market.payloads.ActorResponse;
 import org.jmr.market.payloads.RegisterActorRequest;
 import org.jmr.market.payloads.RegisterActorResponse;
 import org.jmr.market.payloads.RegisterInstrumentRequest;
@@ -75,13 +77,37 @@ public class MarketAgentRESTController {
 	}
 
 
+	/**
+	 * Is the actor that we're seeing something from currently registered
+	 */
+
+	/**
+	 * The generic actor does not exist response that will be returned whenever we have a
+	 * bad request
+	 */
+	private ActorDoesNotExistResponse actorDoesNotExistResponseBuilder(){
+		ActorDoesNotExistResponse actorDoesNotExistResponse = new ActorDoesNotExistResponse();
+
+		//Build and populate the response
+		ResponseType response = new ResponseType();
+		response.setTransactionId(new SystemTransactionId());
+		response.setResponseDescription("Actor does not exist");
+		response.setResponseTime(Instant.now());
+		response.setResponseCode(ResponseCode.ACTOR_NOT_FOUND);
+
+		actorDoesNotExistResponse.setResponse(response);
+		
+		//Send it out
+		return actorDoesNotExistResponse;
+	}
+
 	//========================================= Actor Management System ======================================
 	/**
 	 * A request given to register an actor in the system. Before registration, actors 
 	 * are unknown and the system will not recognize them
 	 */
 	@PostMapping("/registerActor")
-	public RegisterActorResponse registerActor(
+	public ActorResponse registerActor(
 		@RequestBody RegisterActorRequest registerActorRequest){
 
 		//Temporary variables
@@ -130,7 +156,7 @@ public class MarketAgentRESTController {
 	 * Retrieve an actor with the corresponding ID from the current actor system
 	 */
 	@PostMapping("/retrieveActor")
-	public RetrieveActorResponse retrieveActor(
+	public ActorResponse retrieveActor(
 		@RequestBody RetrieveActorRequest retrieveActorRequest){
 
 		//Overall transaction ID
@@ -154,9 +180,8 @@ public class MarketAgentRESTController {
 		retrieveResponse.setActor(found);
 		
 		if(found == null){
-			response.setResponseCode(ResponseCode.ACTOR_NOT_FOUND);
-			response.setResponseDescription("Actor with ID " + actorId.toString() + " does not exist");
-			logger.info("Actor with ID " + actorId.toString() + " does not exist");
+			//Call and get out
+			return actorDoesNotExistResponseBuilder();
 		} else {
 			response.setResponseCode(ResponseCode.RESPONSE_CODE_OK);
 			response.setResponseDescription("Actor with ID " + actorId.toString() + " was found");

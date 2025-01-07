@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/marketUserAgent")
 public class MarketUserAgentRESTController {
 
-	@PostMapping("{muaID}/createQuote")
+	@PostMapping("{ActorId}/createQuote")
 	public ActorCreateQuoteResponse actorCreateQuote(
-		@PathVariable String muaID,
+		@PathVariable String ActorId,
 		@RequestBody ActorCreateQuoteRequest actorCreateQuoteRequest
 	){
 		return null;

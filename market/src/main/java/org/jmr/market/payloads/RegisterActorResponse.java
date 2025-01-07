@@ -3,7 +3,7 @@ package org.jmr.market.payloads;
 import org.jmr.market.util.ActorType;
 import org.jmr.market.util.ResponseType;
 
-public class RegisterActorResponse{
+public class RegisterActorResponse implements ActorResponse{
 	private String info = "RegisterActorResponse";
 	//This is the actor ID that newly registered individuals are given
 	private ActorType actor;

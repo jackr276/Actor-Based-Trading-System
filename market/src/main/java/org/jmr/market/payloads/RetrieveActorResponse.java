@@ -3,7 +3,7 @@ package org.jmr.market.payloads;
 import org.jmr.market.util.ActorType;
 import org.jmr.market.util.ResponseType;
 
-public class RetrieveActorResponse{
+public class RetrieveActorResponse implements ActorResponse{
 	private String info = "RetrieveActorResponse";
 	//The actor that we actually got
 	private ActorType actor;
