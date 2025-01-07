@@ -10,6 +10,8 @@ import org.jmr.market.payloads.RetrieveActorRequest;
 import org.jmr.market.payloads.RetrieveActorResponse;
 import org.jmr.market.payloads.RetrieveAllActorsRequest;
 import org.jmr.market.payloads.RetrieveAllActorsResponse;
+import org.jmr.market.payloads.RetrieveAllInstrumentsRequest;
+import org.jmr.market.payloads.RetrieveAllInstrumentsResponse;
 import org.jmr.market.payloads.RetrieveInstrumentRequest;
 import org.jmr.market.payloads.RetrieveInstrumentResponse;
 import org.jmr.market.util.ActorIdType;
@@ -278,6 +280,37 @@ public class MarketAgentRESTController {
 		
 		return retrieveResponse;
 	}
-	
+
+	/**
+	 * Retrieve all currently registered instruments
+	 */
+	@PostMapping("/retrieveAllInstruments")
+	public RetrieveAllInstrumentsResponse retrieveAllInstruments(
+		@RequestBody RetrieveAllInstrumentsRequest retrieveAllInstrumentsRequest){
+		RetrieveAllInstrumentsResponse retrieveResponse = new RetrieveAllInstrumentsResponse();
+		
+		//Initialize response and transaction ID
+		SystemTransactionId systemTransactionId = new SystemTransactionId();
+		ResponseType response = new ResponseType();
+		response.setTransactionId(systemTransactionId);
+		response.setResponseTime(Instant.now());
+		response.setResponseDescription("All currently registered instruments have been returned");
+		
+		//We'll populate this
+		ArrayList<InstrumentType> instruments = new ArrayList<>();
+
+		//Iterate over and populate
+		for(InstrumentIdType i : currentInstruments.keySet()){
+			instruments.add(currentInstruments.get(i));
+		}
+		
+		response.setResponseCode(ResponseCode.RESPONSE_CODE_OK);
+		
+		//Populate and return
+		retrieveResponse.setResponse(response);
+		retrieveResponse.setInstruments(instruments);
+		
+		return retrieveResponse;
+	}
 	//==================================== Instrument Management System ======================================
 }
