@@ -10,6 +10,10 @@ public class InstrumentIdType extends UIDType{
 	//For JSON
 	public InstrumentIdType(){}
 
+	public InstrumentIdType(long instrumentId){
+		this.setId(instrumentId);
+	}
+
 	@Override
 	public int hashCode(){
 		return super.hashCode();

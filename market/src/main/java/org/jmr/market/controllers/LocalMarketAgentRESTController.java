@@ -10,6 +10,8 @@ import org.jmr.market.payloads.RetrieveActorRequest;
 import org.jmr.market.payloads.RetrieveActorResponse;
 import org.jmr.market.payloads.RetrieveAllActorsRequest;
 import org.jmr.market.payloads.RetrieveAllActorsResponse;
+import org.jmr.market.payloads.RetrieveInstrumentRequest;
+import org.jmr.market.payloads.RetrieveInstrumentResponse;
 import org.jmr.market.util.ActorIdType;
 import org.jmr.market.util.ActorType;
 import org.jmr.market.util.ResponseCode;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -234,6 +237,47 @@ public class LocalMarketAgentRESTController {
 		return registerResponse;
 	}
 	
+	/**
+	 * Retrieve an instrument by ID
+	 */
+	@PostMapping("/retrieveInstrument")
+	public RetrieveInstrumentResponse retrieveInstrument(
+		@RequestBody RetrieveInstrumentRequest retrieveInstrumentRequest){
+		RetrieveInstrumentRequest request = retrieveInstrumentRequest;
+		RetrieveInstrumentResponse retrieveResponse = new RetrieveInstrumentResponse();
+
+		//Transaction ID
+		SystemTransactionId systemTransactionId = new SystemTransactionId();
+
+		//Create an initially populate the response
+		ResponseType response = new ResponseType();
+		response.setTransactionId(systemTransactionId);
+		response.setResponseTime(Instant.now());
+		
+		//Make this for searching
+		InstrumentIdType instrumentId = new InstrumentIdType(request.getInstrumentId());
+		InstrumentType found = null;
+
+		//Let's see if we find it
+		found = currentInstruments.get(instrumentId);
+
+		//If we didn't find it
+		if(found == null){
+			response.setResponseCode(ResponseCode.INSTRUMENT_NOT_FOUND);
+			response.setResponseDescription("Instrument with ID" + instrumentId + " does not exist");
+		} else {
+			//Otherwise we did find it
+			response.setResponseCode(ResponseCode.RESPONSE_CODE_OK);
+			response.setResponseDescription("Instrument with ID" + instrumentId + " was found");
+		}
+		
+		//Whether we did or didn't populate the instrument
+		retrieveResponse.setInstrument(found);
+		//Populate the response
+		retrieveResponse.setResponse(response);
+		
+		return retrieveResponse;
+	}
 	
 	//==================================== Instrument Management System ======================================
 }
