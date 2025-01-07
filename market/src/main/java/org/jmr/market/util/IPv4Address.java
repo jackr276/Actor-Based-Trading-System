@@ -7,7 +7,7 @@ import java.util.regex.*;
  */
 public class IPv4Address{
 	//The actual address
-	private String address;
+	private String address = "";
 	//Is it valid?
 	private boolean isValid;
 

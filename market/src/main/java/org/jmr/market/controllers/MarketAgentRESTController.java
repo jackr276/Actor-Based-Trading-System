@@ -18,6 +18,7 @@ import org.jmr.market.payloads.RetrieveInstrumentRequest;
 import org.jmr.market.payloads.RetrieveInstrumentResponse;
 import org.jmr.market.util.ActorIdType;
 import org.jmr.market.util.ActorType;
+import org.jmr.market.util.IPv4Address;
 import org.jmr.market.util.ResponseCode;
 import org.jmr.market.util.ResponseType;
 import org.jmr.market.util.SystemTransactionId;
@@ -27,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
@@ -36,8 +36,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @RestController
-@RequestMapping("/market_agent")
+@RequestMapping("/marketAgent")
 public class MarketAgentRESTController {
+	//The market agent url
+	public static final String MarketAgentURL = "http://localhost:8080/marketAgent";
+
 	//In our system, the LMA itself counts as an actor, so it will have an actorID
 	private static final ActorIdType partyID = new ActorIdType();
 
@@ -85,8 +88,8 @@ public class MarketAgentRESTController {
 	 * The generic actor does not exist response that will be returned whenever we have a
 	 * bad request
 	 */
-	private ActorDoesNotExistResponse actorDoesNotExistResponseBuilder(){
-		ActorDoesNotExistResponse actorDoesNotExistResponse = new ActorDoesNotExistResponse();
+	private RetrieveActorResponse actorDoesNotExistResponseBuilder(){
+		RetrieveActorResponse actorDoesNotExistResponse = new RetrieveActorResponse();
 
 		//Build and populate the response
 		ResponseType response = new ResponseType();
@@ -96,6 +99,12 @@ public class MarketAgentRESTController {
 		response.setResponseCode(ResponseCode.ACTOR_NOT_FOUND);
 
 		actorDoesNotExistResponse.setResponse(response);
+		ActorType actor = new ActorType();
+		actor.setActorId(new ActorIdType(-1));
+		actor.setPort(-1);
+		actor.setActorAddress(new IPv4Address());
+
+		actorDoesNotExistResponse.setActor(actor);
 		
 		//Send it out
 		return actorDoesNotExistResponse;
@@ -156,7 +165,7 @@ public class MarketAgentRESTController {
 	 * Retrieve an actor with the corresponding ID from the current actor system
 	 */
 	@PostMapping("/retrieveActor")
-	public ActorResponse retrieveActor(
+	public RetrieveActorResponse retrieveActor(
 		@RequestBody RetrieveActorRequest retrieveActorRequest){
 
 		//Overall transaction ID

@@ -1,5 +1,5 @@
 package org.jmr.market.payloads;
 
-public class ActorCreateQuoteResponse{
+public class ActorCreateQuoteResponse implements ActorResponse{
 
 }
