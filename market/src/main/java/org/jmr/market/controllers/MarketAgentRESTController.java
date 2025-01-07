@@ -32,13 +32,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @RestController
-@RequestMapping("/local_market_agent")
-public class LocalMarketAgentRESTController {
+@RequestMapping("/market_agent")
+public class MarketAgentRESTController {
 	//In our system, the LMA itself counts as an actor, so it will have an actorID
 	private static final ActorIdType partyID = new ActorIdType();
 
 	//Initialize the logger that we will use
-	private static final Logger logger = LogManager.getLogger(LocalMarketAgentRESTController.class);
+	private static final Logger logger = LogManager.getLogger(MarketAgentRESTController.class);
 
 
 	/**
@@ -59,7 +59,7 @@ public class LocalMarketAgentRESTController {
 	/**
 	 * Simple no args constructor
 	 */
-	public LocalMarketAgentRESTController(){
+	public MarketAgentRESTController(){
 		logger.trace("Zero argument constructor invoked");
 	}
 
@@ -69,7 +69,7 @@ public class LocalMarketAgentRESTController {
 	 */
 	@GetMapping("/party")
 	public ActorIdType getPartyId(){
-		return LocalMarketAgentRESTController.partyID;
+		return MarketAgentRESTController.partyID;
 	}
 
 
