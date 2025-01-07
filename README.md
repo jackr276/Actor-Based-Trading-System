@@ -1,2 +1,2 @@
 # Actor-Based Trading System
- A custom implementation of The Energy Mashup Lab's CTS draft standard, in SpringBoot
+A custom actor based trading system. Currently a work in progress. NOT INTENDED FOR REAL WORLD USE.
