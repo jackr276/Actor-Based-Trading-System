@@ -37,7 +37,7 @@ public class RetrieveAllInstrumentsResponse{
 		this.instruments = instruments;
 	}
 
-	public List<InstrumentType> getInstrumets(){
+	public List<InstrumentType> getInstruments(){
 		return this.instruments;
 	}
 

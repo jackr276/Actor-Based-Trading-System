@@ -6,6 +6,7 @@ import org.jmr.market.payloads.ActorCreateQuoteRequest;
 import org.jmr.market.payloads.ActorCreateQuoteResponse;
 import org.jmr.market.payloads.ActorDoesNotExistResponse;
 import org.jmr.market.controllers.MarketAgentRESTController;
+import org.jmr.market.util.ActorType;
 import org.jmr.market.util.ResponseCode;
 import org.jmr.market.util.ResponseType;
 import org.jmr.market.util.SystemTransactionId;
@@ -28,10 +29,7 @@ public class MarketUserAgentRESTController {
 	 * A private helper method that will find an actor by the ID given in
 	 * the URI
 	 */
-	private ActorResponse findActorById(String actorIdString){
-		ResponseType response = new ResponseType();
-		response.setResponseTime(Instant.now());
-		response.setTransactionId(new SystemTransactionId());
+	private ActorType findActorById(String actorIdString){
 		//We'll try to find this
 		long actorId;
 
@@ -39,12 +37,7 @@ public class MarketUserAgentRESTController {
 		try{
 			actorId = Long.parseLong(actorIdString);
 		} catch (NumberFormatException nfe){
-			//If it's bad, then we'll fail out
-			ActorDoesNotExistResponse actorResponse = new ActorDoesNotExistResponse();
-			response.setResponseCode(ResponseCode.INVALID_ACTORID_STRING);
-			response.setResponseDescription("An invalid actorId string was given in the URI");
-			actorResponse.setResponse(response);
-			return actorResponse;
+			return null;
 		}
 
 		//Otherwise we know that it exists
@@ -60,19 +53,41 @@ public class MarketUserAgentRESTController {
 		RetrieveActorResponse actorResponse = restTemplate.postForObject(MarketAgentRESTController.MarketAgentURL + "/retrieveActor",
 																 request,
 																 RetrieveActorResponse.class);
-		System.out.println(actorResponse);
-
-
-		return null;
+		//We'll give this back to whoever is asking
+		return actorResponse.getActor();
 	} 
 
+	
+
+	/**
+	 * To avoid having to encode the actor ID in JSON, each individual actor will post to a URI with their
+	 * ID in the URI for the POST. This also means that if an actor is not registered, their POST will fail
+	 */
 	@PostMapping("{actorId}/createQuote")
-	public ActorResponse actorCreateQuote(
+	public ActorCreateQuoteResponse actorCreateQuote(
 		@PathVariable String actorId,
 		@RequestBody ActorCreateQuoteRequest actorCreateQuoteRequest
 	){
-		findActorById(actorId);
-			return null;
-	}
+		ActorCreateQuoteResponse actorCreateQuoteResponse = new ActorCreateQuoteResponse();
+		//Start to populate this
+		ResponseType response = new ResponseType();
+		response.setTransactionId(new SystemTransactionId());
+		response.setResponseTime(Instant.now());
 
+
+		//Let's see if we can actually find this actor
+		ActorType actor = findActorById(actorId);
+
+		//If it's null then we've failed here
+		if(actor.getActorId().valueOf() == -1){
+			response.setResponseCode(ResponseCode.ACTOR_NOT_FOUND);
+			response.setResponseDescription("Actor with ID: " + actorId + " does not exist");
+			actorCreateQuoteResponse.setResponse(response);
+			//Return this
+			return actorCreateQuoteResponse;
+		}
+
+
+		return null;
+	}
 }
