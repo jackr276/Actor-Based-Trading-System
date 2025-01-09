@@ -110,6 +110,7 @@ public class MarketAgentRESTController {
 		return actorDoesNotExistResponse;
 	}
 
+
 	//========================================= Actor Management System ======================================
 	/**
 	 * A request given to register an actor in the system. Before registration, actors 
@@ -261,6 +262,7 @@ public class MarketAgentRESTController {
 		instrument.setInstrumentName(request.getInstrumentName());
 		instrument.setInstrumentClass(request.getInstrumentClass());
 		instrument.setInstrumentAssetClass(request.getInstrumentAssetClass());
+		instrument.setInstrumentPrice(request.getInstrumentPrice());
 		
 		//Insert into the map
 		currentInstruments.put(instrument.getInstrumentId(), instrument);

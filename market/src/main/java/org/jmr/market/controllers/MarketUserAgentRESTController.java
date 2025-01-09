@@ -4,13 +4,10 @@ import java.time.Instant;
 
 import org.jmr.market.payloads.ActorCreateQuoteRequest;
 import org.jmr.market.payloads.ActorCreateQuoteResponse;
-import org.jmr.market.payloads.ActorDoesNotExistResponse;
-import org.jmr.market.controllers.MarketAgentRESTController;
 import org.jmr.market.util.ActorType;
 import org.jmr.market.util.ResponseCode;
 import org.jmr.market.util.ResponseType;
 import org.jmr.market.util.SystemTransactionId;
-import org.jmr.market.payloads.ActorResponse;
 import org.jmr.market.payloads.RetrieveActorRequest;
 import org.jmr.market.payloads.RetrieveActorResponse;
 import org.springframework.boot.web.client.RestTemplateBuilder;

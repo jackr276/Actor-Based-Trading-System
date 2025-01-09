@@ -11,6 +11,7 @@ public class InstrumentType{
 	private String instrumentName;
 	private InstrumentAssetClass instrumentAssetClass;
 	private InstrumentClass instrumentClass;
+	private InstrumentPriceType instrumentPrice;
 	/* May add more */
 
 	//For JSON
@@ -44,6 +45,14 @@ public class InstrumentType{
 		return this.instrumentName;
 	}
 
+	public void setInstrumentPrice(InstrumentPriceType instrumentPrice){
+		this.instrumentPrice = instrumentPrice;
+	}
+
+	public InstrumentPriceType getInstrumentPrice(){
+		return this.instrumentPrice;
+	}
+
 	public void setInstrumentName(String instrumentName){
 		this.instrumentName = instrumentName;
 	}
@@ -55,6 +64,7 @@ public class InstrumentType{
 				", " + this.instrumentName + 
 				", " + this.instrumentClass +
 				", " + this.instrumentAssetClass +
+				", " + this.instrumentPrice.toString() +
 				" }";
 	}
 }

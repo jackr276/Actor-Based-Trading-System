@@ -7,6 +7,7 @@ public class RegisterInstrumentRequest{
 	private String instrumentName;
 	private InstrumentAssetClass instrumentAssetClass;
 	private InstrumentClass instrumentClass;
+	private InstrumentPriceType instrumentPrice;
 	/* May add more as needed */
 
 	//JSON
@@ -42,6 +43,14 @@ public class RegisterInstrumentRequest{
 
 	public void setInstrumentAssetClass(InstrumentAssetClass instrumentAssetClass){
 		this.instrumentAssetClass = instrumentAssetClass;
+	}
+
+	public InstrumentPriceType getInstrumentPrice(){
+		return this.instrumentPrice;
+	}
+
+	public void setInstrumentPrice(InstrumentPriceType instrumentPrice){
+		this.instrumentPrice = instrumentPrice;
 	}
 
 	@Override
