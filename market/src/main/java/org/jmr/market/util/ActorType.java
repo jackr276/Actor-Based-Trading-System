@@ -12,6 +12,10 @@ public class ActorType{
 	private IPv4Address actorAddress; 
 	//The actor port
 	private long port;
+	//Is the actor subscribed to instrument tickers?
+	private boolean subscribedToInstrumentTicker = false;
+	//Is the actor subscribed to quote tickers?
+	private boolean subscribedToQuoteTicker = false;
 	//TODO other attributes may come here, this will do for now
 
 	//JSON
@@ -40,6 +44,22 @@ public class ActorType{
 
 	public long getPort(){
 		return this.port;
+	}
+
+	public boolean getSubscribedToInstrumentTicker(){
+		return this.subscribedToInstrumentTicker;
+	}
+
+	public void setSubscribedToInstrumentTicker(boolean subscribedToInstrumentTicker){
+		this.subscribedToInstrumentTicker = subscribedToInstrumentTicker;
+	}
+
+	public boolean getSubscribedToQuoteTicker(){
+		return this.subscribedToQuoteTicker;
+	}
+
+	public void setSubscribedToQuoteTicker(boolean subscribedToQuoteTicker){
+		this.subscribedToQuoteTicker = subscribedToQuoteTicker;
 	}
 
 	@Override
