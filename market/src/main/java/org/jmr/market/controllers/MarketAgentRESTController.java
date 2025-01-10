@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.logging.log4j.LogManager;
@@ -53,13 +54,13 @@ public class MarketAgentRESTController {
 	 * key in this hashmap, and it's value is the URI that we would post to in the event
 	 * that we want to
 	 */
-	ConcurrentHashMap<ActorIdType, ActorType> currentActors = new ConcurrentHashMap<>(); 
+	HashMap<ActorIdType, ActorType> currentActors = new HashMap<>(); 
 	/**
 	 * Here we will manage all active instruments in the system. The instrumentID is used as a 
 	 * key in this hashmap
 	 * TODO will eventually go in database
 	 */
-	ConcurrentHashMap<InstrumentIdType, InstrumentType> currentInstruments = new ConcurrentHashMap<>(); 
+	HashMap<InstrumentIdType, InstrumentType> currentInstruments = new HashMap<>(); 
 
 
 
@@ -147,8 +148,12 @@ public class MarketAgentRESTController {
 			actor.setActorAddress(request.getIpv4Address());
 			actor.setPort(request.getPort());
 		
-			//We now have a valid actor, so we're good to insert
-			currentActors.put(actor.getActorId(), actor);
+			//Push this into the hashmap
+			synchronized(currentActors){
+				//We now have a valid actor, so we're good to insert
+				currentActors.put(actor.getActorId(), actor);
+			}
+			
 			response.setResponseCode(ResponseCode.RESPONSE_CODE_OK);
 			response.setResponseDescription("Actor has been created and registered");
 		}
@@ -183,9 +188,13 @@ public class MarketAgentRESTController {
 		ActorIdType actorId = new ActorIdType(request.getActorId());
 
 		ActorType found = null;
-		//Let's see if we can grab it
-		found = currentActors.get(actorId);
 		
+		//Pull it out of the hashmap
+		synchronized(currentActors){
+			//Let's see if we can grab it
+			found = currentActors.get(actorId);
+		}
+
 		//Set the actor here
 		retrieveResponse.setActor(found);
 		
@@ -223,9 +232,12 @@ public class MarketAgentRESTController {
 		response.setResponseTime(Instant.now());
 		response.setResponseCode(ResponseCode.RESPONSE_CODE_OK);
 
-		//Build the array list up for us to respond
-		for(ActorIdType id : this.currentActors.keySet()){
-			actors.add(this.currentActors.get(id));
+		//Lock currentActors while we're doing this
+		synchronized(currentActors){
+			//Build the array list up for us to respond
+			for(ActorIdType id : this.currentActors.keySet()){
+				actors.add(this.currentActors.get(id));
+			}
 		}
 
 		//Add it in to the response
@@ -265,7 +277,9 @@ public class MarketAgentRESTController {
 		instrument.setInstrumentPrice(request.getInstrumentPrice());
 		
 		//Insert into the map
-		currentInstruments.put(instrument.getInstrumentId(), instrument);
+		synchronized(currentInstruments){
+			currentInstruments.put(instrument.getInstrumentId(), instrument);
+		}
 		
 		//Populate response and return
 		registerResponse.setInstrument(instrument);
@@ -297,7 +311,9 @@ public class MarketAgentRESTController {
 		InstrumentType found = null;
 
 		//Let's see if we find it
-		found = currentInstruments.get(instrumentId);
+		synchronized(currentInstruments){
+			found = currentInstruments.get(instrumentId);
+		}
 
 		//If we didn't find it
 		if(found == null){
@@ -336,8 +352,10 @@ public class MarketAgentRESTController {
 		ArrayList<InstrumentType> instruments = new ArrayList<>();
 
 		//Iterate over and populate
-		for(InstrumentIdType i : currentInstruments.keySet()){
-			instruments.add(currentInstruments.get(i));
+		synchronized(currentInstruments){
+			for(InstrumentIdType i : currentInstruments.keySet()){
+				instruments.add(currentInstruments.get(i));
+			}
 		}
 		
 		response.setResponseCode(ResponseCode.RESPONSE_CODE_OK);
