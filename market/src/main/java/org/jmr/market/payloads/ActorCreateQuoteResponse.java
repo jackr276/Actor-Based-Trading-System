@@ -1,9 +1,11 @@
 package org.jmr.market.payloads;
 
+import org.jmr.market.quote.QuoteType;
 import org.jmr.market.util.ResponseType;
 
 public class ActorCreateQuoteResponse implements ActorResponse{
 	private String info = "ActorCreateQuoteResponse";
+	private QuoteType createdQuote;
 	private ResponseType response;
 
 	public ActorCreateQuoteResponse(){}
@@ -16,6 +18,14 @@ public class ActorCreateQuoteResponse implements ActorResponse{
 		this.info = info;
 	}
 
+	public QuoteType getCreatedQuote(){
+		return this.createdQuote;
+	}
+
+	public void setCreatedQuote(QuoteType createdQuote){
+		this.createdQuote = createdQuote;
+	}
+
 	public ResponseType getResponse(){
 		 return this.response;
 	}
@@ -26,6 +36,6 @@ public class ActorCreateQuoteResponse implements ActorResponse{
 
 	@Override
 	public String toString(){
-		return this.info + ": " + this.response;
+		return this.info + ": " + this.createdQuote + " " + this.response;
 	}
 }
